@@ -789,7 +789,7 @@ class Scope {
 
 class AIConfigObj {
   constructor() {
-    this.Model = "gemini-2.5-flash";
+    this.Model = "gemini-3-flash-preview";
     this.SystemInstruction = null;
     this.Temperature = null;
     this.TopP = null;
@@ -836,9 +836,19 @@ const HARM_CATEGORIES = [
 ];
 
 function normalizeModel(m) {
-  let model = typeof m === "string" && m.trim() ? m.trim() : "gemini-2.5-flash";
+  let model = typeof m === "string" && m.trim() ? m.trim() : "gemini-3-flash-preview";
   if (model.toLowerCase().startsWith("models/")) model = model.slice(7);
-  if (!/^[a-zA-Z0-9._-]+$/.test(model)) model = "gemini-2.5-flash";
+  if (!/^[a-zA-Z0-9._-]+$/.test(model)) return "gemini-3-flash-preview";
+  const lower = model.toLowerCase();
+  if (["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash", "gemini-flash"].includes(lower)) {
+    return "gemini-3-flash-preview";
+  }
+  if (["gemini-2.5-flash-lite", "gemini-2.0-flash-lite"].includes(lower)) {
+    return "gemini-3.1-flash-lite-preview";
+  }
+  if (["gemini-2.5-pro", "gemini-1.5-pro", "gemini-pro"].includes(lower)) {
+    return "gemini-3.1-pro-preview";
+  }
   return model;
 }
 

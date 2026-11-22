@@ -6,7 +6,7 @@ namespace StarlightAI.Engine;
 
 public sealed class StarlightAIConfig
 {
-    public string Model { get; set; } = "gemini-2.5-flash";
+    public string Model { get; set; } = "gemini-3-flash-preview";
     public string? SystemInstruction { get; set; }
     public double? Temperature { get; set; }
     public double? TopP { get; set; }
@@ -88,12 +88,19 @@ public sealed class GeminiService
 
     private static string NormalizeModel(string? model)
     {
-        string m = string.IsNullOrWhiteSpace(model) ? "gemini-2.5-flash" : model.Trim();
+        string m = string.IsNullOrWhiteSpace(model) ? "gemini-3-flash-preview" : model.Trim();
         if (m.StartsWith("models/", StringComparison.OrdinalIgnoreCase))
             m = m[7..];
         if (!SafeModelRegex.IsMatch(m))
-            m = "gemini-2.5-flash";
-        return m;
+            return "gemini-3-flash-preview";
+
+        return m.ToLowerInvariant() switch
+        {
+            "gemini-2.5-flash" or "gemini-2.0-flash" or "gemini-1.5-flash" or "gemini-flash" => "gemini-3-flash-preview",
+            "gemini-2.5-flash-lite" or "gemini-2.0-flash-lite" => "gemini-3.1-flash-lite-preview",
+            "gemini-2.5-pro" or "gemini-1.5-pro" or "gemini-pro" => "gemini-3.1-pro-preview",
+            _ => m
+        };
     }
 
     public async Task<StarlightAIResponse> GenerateAsync(
