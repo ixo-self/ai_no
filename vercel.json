@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "rewrites": [
+    { "source": "/api/execute", "destination": "/api/execute.js" },
+    { "source": "/style.css", "destination": "/wwwroot/style.css" },
+    { "source": "/app.js", "destination": "/wwwroot/app.js" },
+    { "source": "/", "destination": "/wwwroot/index.html" }
+  ]
+}

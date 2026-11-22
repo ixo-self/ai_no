@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>星輝</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <header class="top-bar">
+    <button id="ref-btn" class="ref-btn" type="button">指令對照</button>
+  </header>
+
+  <main class="container">
+    <section class="editor-pane">
+      <textarea
+        id="code-box"
+        class="code-box"
+        spellcheck="false"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"
+        aria-label="星輝編碼"
+      ></textarea>
+    </section>
+
+    <div class="action-bar">
+      <button id="exec-btn" class="exec-btn" type="button">執行</button>
+    </div>
+
+    <section class="output-pane">
+      <pre id="result-box" class="result-box" aria-live="polite"></pre>
+    </section>
+  </main>
+
+  <div id="ref-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="ref-title">
+    <div class="modal-card">
+      <div class="modal-header">
+        <span id="ref-title" class="modal-title">✦ 星輝編碼 (Starlight-C#) 指令對照表（點擊符號可插入白框）</span>
+        <button id="ref-close-btn" class="modal-close-btn" type="button">✖</button>
+      </div>
+      <div id="ref-content" class="modal-body"></div>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+# 環境變數與金鑰 (絕對禁止上傳)
+.env
+.env.*
+!.env.example
+
+# 建置產物
+bin/
+obj/
+out/
+publish/
+node_modules/
+.vercel/
+
+# 作者本地專用星輝編碼器與語法手冊 (預設不公開至 GitHub)
+tools/
