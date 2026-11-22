@@ -298,7 +298,7 @@
   // 載入伺服器記憶體中僅存的一次執行結果
   async function loadLastResult() {
     try {
-      const response = await fetch("/api/execute", { method: "GET" });
+      const response = await fetch("./api/execute", { method: "GET" });
       if (!response.ok) return;
       const data = await response.json();
       if (typeof data.result === "string") {
@@ -323,13 +323,20 @@
     resultBox.textContent = "";
 
     try {
-      const response = await fetch("/api/execute", {
+      const response = await fetch("./api/execute", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({ code: code })
       });
+
+      if (response.status === 404 || response.status === 405) {
+        if (window.StarlightClientVM) {
+          resultBox.textContent = await window.StarlightClientVM.run(code);
+          return;
+        }
+      }
 
       if (!response.ok) {
         resultBox.textContent = "✖";
@@ -339,7 +346,11 @@
       const data = await response.json();
       resultBox.textContent = typeof data.result === "string" ? data.result : "";
     } catch (_) {
-      resultBox.textContent = "✖";
+      if (window.StarlightClientVM) {
+        resultBox.textContent = await window.StarlightClientVM.run(code);
+      } else {
+        resultBox.textContent = "✖";
+      }
     } finally {
       execBtn.disabled = false;
     }
